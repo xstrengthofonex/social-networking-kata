@@ -25,5 +25,5 @@ class RegisterUserTest(unittest.TestCase):
 
         self.use_case.execute(request)
 
-        self.presenter.present.assert_called_with(response)
+        self.presenter.on_success.assert_called_with(response)
         self.repository.add.assert_called_with(self.USER)

@@ -1,3 +1,4 @@
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
 from social_network.domain import user
@@ -17,8 +18,9 @@ class Response(object):
     about: str
 
 
-class Presenter(object):
-    def present(self, response: Response) -> None:
+class Presenter(ABC):
+    @abstractmethod
+    def on_success(self, response: Response) -> None:
         pass
 
 
