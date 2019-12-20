@@ -21,21 +21,21 @@ class RegisterUserTest(unittest.TestCase):
         self.use_case = register_user.UseCase(self.presenter, self.repository)
 
     def test_register_user(self):
+        self.repository.username_exists.return_value = False
         self.repository.get_next_id.return_value = self.USER_ID
         request = register_user.Request(self.USERNAME, self.PASSWORD, self.ABOUT)
-        response = register_user.Response(self.USER_ID, self.USERNAME, self.ABOUT)
 
         self.use_case.execute(request)
 
+        response = register_user.Response(self.USER_ID, self.USERNAME, self.ABOUT)
         self.presenter.on_success.assert_called_with(response)
         self.repository.add.assert_called_with(self.USER)
 
     def test_register_user_fails(self):
-        self.repository.get_next_id.return_value = self.USER_ID
+        self.repository.username_exists.return_value = True
         request = register_user.Request(self.DUPLICATE_USERNAME, self.PASSWORD, self.ABOUT)
-        response = "Username already in use."
 
         self.use_case.execute(request)
 
-        self.presenter.on_failure.assert_called_with(response)
-        self.repository.add.assert_called_with(self.DUPLICATE_USER)
+        self.repository.username_exists.assert_called_with(self.DUPLICATE_USERNAME)
+        self.presenter.on_failure.assert_called_with("Username already in use.")

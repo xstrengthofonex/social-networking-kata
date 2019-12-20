@@ -23,6 +23,10 @@ class Presenter(ABC):
     def on_success(self, response: Response) -> None:
         pass
 
+    @abstractmethod
+    def on_failure(self, message: str) -> None:
+        pass
+
 
 class UseCase(object):
     def __init__(self, presenter: Presenter, repository: user.Repository) -> None:
@@ -30,7 +34,17 @@ class UseCase(object):
         self.presenter = presenter
 
     def execute(self, request: Request) -> None:
-        newUser = user.User(self.repository.get_next_id(), request.username, request.password, request.about) 
-        self.repository.add(newUser)
-        response = Response(newUser.id, newUser.username, newUser.about)
-        self.presenter.on_success(response) 
+        if self.repository.username_exists(request.username):
+            self.presenter.on_failure("Username already in use.")
+        else:
+            new_user = self.create_new_user_from(request)
+            self.repository.add(new_user)
+            response = Response(new_user.id, new_user.username, new_user.about)
+            self.presenter.on_success(response)
+
+    def create_new_user_from(self, request: Request) -> user.User:
+        return user.User(
+            user.Id(self.repository.get_next_id()),
+            request.username,
+            request.password,
+            request.about)

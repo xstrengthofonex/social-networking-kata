@@ -17,8 +17,12 @@ class User(object):
 class Repository(ABC):
     @abstractmethod
     def add(self, user: User) -> None:
-        True
+        pass
 
     @abstractmethod
     def get_next_id(self) -> Id:
+        pass
+
+    @abstractmethod
+    def username_exists(self, username: str) -> bool:
         pass
