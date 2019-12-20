@@ -29,3 +29,4 @@ class Repository(ABC):
     @abstractmethod
     def find_by_credentials(self, username: str, password: str) -> Optional[User]:
         pass
+
