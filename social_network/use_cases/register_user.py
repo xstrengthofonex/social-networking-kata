@@ -30,4 +30,7 @@ class UseCase(object):
         self.presenter = presenter
 
     def execute(self, request: Request) -> None:
-        pass
+        newUser = user.User(self.repository.get_next_id(), request.username, request.password, request.about) 
+        self.repository.add(newUser)
+        response = Response(newUser.id, newUser.username, newUser.about)
+        self.presenter.on_success(response) 

@@ -11,7 +11,9 @@ class RegisterUserTest(unittest.TestCase):
     USERNAME = "Username"
     PASSWORD = "password"
     ABOUT = "About User"
+    DUPLICATE_USERNAME = "DuplicateUserName"
     USER = user.User(USER_ID, USERNAME, PASSWORD, ABOUT)
+    DUPLICATE_USER = user.User(USER_ID, DUPLICATE_USERNAME, PASSWORD, ABOUT)
 
     def setUp(self) -> None:
         self.presenter = Mock(register_user.Presenter)
@@ -27,3 +29,13 @@ class RegisterUserTest(unittest.TestCase):
 
         self.presenter.on_success.assert_called_with(response)
         self.repository.add.assert_called_with(self.USER)
+
+    def test_register_user_fails(self):
+        self.repository.get_next_id.return_value = self.USER_ID
+        request = register_user.Request(self.DUPLICATE_USERNAME, self.PASSWORD, self.ABOUT)
+        response = "Username already in use."
+
+        self.use_case.execute(request)
+
+        self.presenter.on_failure.assert_called_with(response)
+        self.repository.add.assert_called_with(self.DUPLICATE_USER)

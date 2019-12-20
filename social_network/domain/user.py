@@ -17,7 +17,7 @@ class User(object):
 class Repository(ABC):
     @abstractmethod
     def add(self, user: User) -> None:
-        pass
+        True
 
     @abstractmethod
     def get_next_id(self) -> Id:
