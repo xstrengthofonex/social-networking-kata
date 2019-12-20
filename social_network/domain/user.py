@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import NewType
-
+from typing import NewType, Optional
 
 Id = NewType("Id", str)
 
@@ -16,7 +15,7 @@ class User(object):
 
 class Repository(ABC):
     @abstractmethod
-    def add(self, user: User) -> None:
+    def add(self, a_user: User) -> None:
         pass
 
     @abstractmethod
@@ -25,4 +24,8 @@ class Repository(ABC):
 
     @abstractmethod
     def username_exists(self, username: str) -> bool:
+        pass
+
+    @abstractmethod
+    def find_by_credentials(self, username: str, password: str) -> Optional[User]:
         pass

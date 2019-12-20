@@ -29,22 +29,22 @@ class Presenter(ABC):
 
 
 class UseCase(object):
-    def __init__(self, presenter: Presenter, repository: user.Repository) -> None:
-        self.repository = repository
+    def __init__(self, presenter: Presenter, user_repository: user.Repository) -> None:
+        self.user_repository = user_repository
         self.presenter = presenter
 
     def execute(self, request: Request) -> None:
-        if self.repository.username_exists(request.username):
+        if self.user_repository.username_exists(request.username):
             self.presenter.on_failure("Username already in use.")
         else:
             new_user = self.create_new_user_from(request)
-            self.repository.add(new_user)
+            self.user_repository.add(new_user)
             response = Response(new_user.id, new_user.username, new_user.about)
             self.presenter.on_success(response)
 
     def create_new_user_from(self, request: Request) -> user.User:
         return user.User(
-            user.Id(self.repository.get_next_id()),
+            user.Id(self.user_repository.get_next_id()),
             request.username,
             request.password,
             request.about)
