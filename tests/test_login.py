@@ -16,7 +16,7 @@ class LoginTest(unittest.TestCase):
     def setUp(self) -> None:
         self.repository = Mock(user.Repository)
         self.presenter = Mock(login.Presenter)
-        self.use_case = login.UseCase(self.repository)
+        self.use_case = login.UseCase(self.presenter,self.repository)
 
     def test_login(self):
         self.repository.find_by_credentials.return_value = self.USER
@@ -27,3 +27,11 @@ class LoginTest(unittest.TestCase):
         response = login.Response(self.USER_ID, self.USERNAME,  self.ABOUT)
         self.presenter.on_success.assert_called_with(response)
         self.repository.find_by_credentials.assert_called_with(self.USERNAME, self.PASSWORD)
+    def test_failed_login(self):
+        self.repository.find_by_credentials.return_value = self.USER
+        request = login.Request(self.USERNAME, "wrong.PASSWORD")
+
+        self.use_case.execute(request)
+      
+        self.presenter.on_failure.assert_called_with( login.INVALID_CREDENTIALS)
+        self.repository.find_by_credentials.assert_called_with(self.USERNAME, "wrong.PASSWORD")

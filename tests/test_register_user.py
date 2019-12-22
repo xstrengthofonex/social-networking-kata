@@ -11,8 +11,10 @@ class RegisterUserTest(unittest.TestCase):
     USERNAME = "Username"
     PASSWORD = "password"
     ABOUT = "About User"
-    DUPLICATE_USERNAME = "DuplicateUserName"
     USER = user.User(USER_ID, USERNAME, PASSWORD, ABOUT)
+    DUPLICATE_USERNAME = "DuplicateUserName"
+    
+   
     DUPLICATE_USER = user.User(USER_ID, DUPLICATE_USERNAME, PASSWORD, ABOUT)
 
     def setUp(self) -> None:
@@ -38,4 +40,4 @@ class RegisterUserTest(unittest.TestCase):
         self.use_case.execute(request)
 
         self.repository.username_exists.assert_called_with(self.DUPLICATE_USERNAME)
-        self.presenter.on_failure.assert_called_with("Username already in use.")
+        self.presenter.on_failure.assert_called_with(register_user.REGISTRATION_ERROR)

@@ -3,6 +3,7 @@ from dataclasses import dataclass
 
 from social_network.domain import user
 
+REGISTRATION_ERROR = "Username already in use"
 
 @dataclass(frozen=True)
 class Request(object):
@@ -32,10 +33,11 @@ class UseCase(object):
     def __init__(self, presenter: Presenter, user_repository: user.Repository) -> None:
         self.user_repository = user_repository
         self.presenter = presenter
+       
 
     def execute(self, request: Request) -> None:
         if self.user_repository.username_exists(request.username):
-            self.presenter.on_failure("Username already in use.")
+            self.presenter.on_failure(REGISTRATION_ERROR)
         else:
             new_user = self.create_new_user_from(request)
             self.user_repository.add(new_user)
