@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import NewType, Optional
 
+
 Id = NewType("Id", str)
 
 
@@ -29,4 +30,3 @@ class Repository(ABC):
     @abstractmethod
     def find_by_credentials(self, username: str, password: str) -> Optional[User]:
         pass
-

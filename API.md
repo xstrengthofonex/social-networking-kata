@@ -4,7 +4,7 @@ Here is a list of the APIs that need to be implemented by OpenChat.
 
 ## Register New User
 
-POST - openchat/registration
+POST - /registration
 {
 	"username" : "Alice",
 	"password" : "alki324d",
@@ -26,7 +26,7 @@ Response: "Username already in use."
 
 ## Login
 
-POST - openchat/login
+POST - /login
 {
 	"username" : "Alice"
 	"password" : "alki324d"
@@ -48,7 +48,7 @@ Response: "Invalid credentials."
 
 ## Create Post
 
-POST openchat/user/<userId>/posts
+POST /user/<userId>/posts
 {
 	"text" : "Hello everyone. I'm Alice."
 }
@@ -68,7 +68,7 @@ Response: "User does not exit."
 
 ## Retrieve Posts (User timeline)
 
-GET - openchat/user/<userId>/timeline
+GET - /user/<userId>/timeline
 [{
 	"postId" : "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
 	"userId" : "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -92,7 +92,7 @@ Response: "User does not exit."
 
 ## Follow User
 
-POST - openchat/follow
+POST - /follow
 {
 	followerId: Alice ID,
 	followeeId: Bob ID
@@ -107,7 +107,7 @@ Response: "At least one of the users does not exit."
 
 ## Retrieve Wall
 
-GET - openchat/user/<userId>/wall
+GET - /user/<userId>/wall
 [{
 	"postId" : "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
 	"userId" : "BOB_IDxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -149,7 +149,7 @@ Response: "User does not exist."
 
 ## Retrieve All Users
 
-GET - openchat/users
+GET - /users
 [{
 	"userId" : "123e4567-e89b-12d3-a456-426655440000",
 	"username" : "Alice",
@@ -169,7 +169,7 @@ Status OK - 200
 
 ## Retrieve all users followed by another user (followees)
 
-GET - openchat/user/:userId/followees
+GET - /user/:userId/followees
 [{
 	"userId" : "123e4567-e89b-12d3-a456-426655440000",
 	"username" : "Alice",

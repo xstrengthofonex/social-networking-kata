@@ -20,7 +20,7 @@ class RegisterUserTest(unittest.TestCase):
     def setUp(self) -> None:
         self.presenter = Mock(register_user.Presenter)
         self.repository = Mock(user.Repository)
-        self.use_case = register_user.UseCase(self.presenter, self.repository)
+        self.use_case = register_user.UseCase(self.repository, self.presenter)
 
     def test_register_user(self):
         self.repository.username_exists.return_value = False

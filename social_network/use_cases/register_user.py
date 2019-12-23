@@ -3,7 +3,9 @@ from dataclasses import dataclass
 
 from social_network.domain import user
 
+
 REGISTRATION_ERROR = "Username already in use"
+
 
 @dataclass(frozen=True)
 class Request(object):
@@ -29,11 +31,16 @@ class Presenter(ABC):
         pass
 
 
+class InputBoundary(ABC):
+    @abstractmethod
+    def execute(self, request: Request) -> None:
+        pass
+
+
 class UseCase(object):
-    def __init__(self, presenter: Presenter, user_repository: user.Repository) -> None:
+    def __init__(self, user_repository: user.Repository, presenter: Presenter) -> None:
         self.user_repository = user_repository
         self.presenter = presenter
-       
 
     def execute(self, request: Request) -> None:
         if self.user_repository.username_exists(request.username):
@@ -50,3 +57,5 @@ class UseCase(object):
             request.username,
             request.password,
             request.about)
+
+
