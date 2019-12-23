@@ -10,7 +10,7 @@ class RegisterUserAPITest(dsl.APITest):
             password=self.ALICE.password,
             about=self.ALICE.about)
 
-        response = self.client.post("/registration", params=registration_data)
+        response = self.client.post_json("/registration", params=registration_data)
 
         self.assertEqual(200, response.status_int)
         self.assertIsNotNone(response.json.get("id"))

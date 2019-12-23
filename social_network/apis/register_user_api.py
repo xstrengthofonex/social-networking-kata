@@ -1,3 +1,5 @@
+import json
+
 import falcon
 
 from social_network.domain import user
@@ -18,4 +20,8 @@ class Controller(object):
         self.user_repository = user_repository
 
     def on_post(self, request: falcon.Request, response: falcon.Response) -> None:
-        raise NotImplementedError
+        data = json.load(request.bounded_stream)
+
+        response.content_type = "application/json"
+        response.body = json.dumps(dict())
+
