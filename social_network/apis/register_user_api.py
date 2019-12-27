@@ -24,5 +24,6 @@ class Controller(object):
         newUser = case.create_new_user_from(ru_request)
         response.content_type = "application/json"
         response.body = json.dumps({"id": newUser.id, "username": newUser.username, "about": newUser.about})
-        response.status_int = 200
+        response.status_int = 201
+        response.status = "201 - CREATED"
 

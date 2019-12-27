@@ -12,7 +12,7 @@ POST - /registration
 }
 
 **Success**
-Status CREATED - 201
+Status 201 - CREATED
 Response:
 {
     "userId" : "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
