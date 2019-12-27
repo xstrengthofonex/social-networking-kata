@@ -4,14 +4,15 @@ from social_network.domain import user
 
 
 class UserRepository(user.Repository):
+    users = []
     def add(self, a_user: user.User) -> None:
-        raise NotImplementedError
+       self.users.append(a_user)
 
     def get_next_id(self) -> user.Id:
-        raise NotImplementedError
+        return user.Id(len(self.users) + 1)
 
     def username_exists(self, username: str) -> bool:
-        raise NotImplementedError
+        any(user.username == username for user in self.users) 
 
     def find_by_credentials(self, username: str, password: str) -> Optional[user.User]:
         raise NotImplementedError

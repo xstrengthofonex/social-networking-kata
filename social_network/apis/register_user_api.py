@@ -1,5 +1,4 @@
 import json
-
 import falcon
 
 from social_network.domain import user
@@ -20,7 +19,10 @@ class Controller(object):
 
     def on_post(self, request: falcon.Request, response: falcon.Response) -> None:
         data = json.load(request.bounded_stream)
-
+        case = register_user.UseCase(self.user_repository, Presenter)
+        ru_request = register_user.Request(data.get("username"), data.get("password"), data.get("about"))
+        newUser = case.create_new_user_from(ru_request)
         response.content_type = "application/json"
-        response.body = json.dumps(dict())
+        response.body = json.dumps({"id": newUser.id, "username": newUser.username, "about": newUser.about})
+        response.status_int = 200
 
