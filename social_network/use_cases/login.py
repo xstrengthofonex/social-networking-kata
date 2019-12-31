@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-import social_network.repositories.users
+from social_network.repositories import users
 from social_network.entities import user
 
 
@@ -32,7 +32,7 @@ class Presenter(ABC):
 
 
 class UseCase(object):
-    def __init__(self, presenter: Presenter, user_repository: social_network.repositories.users.Repository) -> None:
+    def __init__(self, presenter: Presenter, user_repository: users.Repository) -> None:
         self.user_repository = user_repository
         self.presenter = presenter
 

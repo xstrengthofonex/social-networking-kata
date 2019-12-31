@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-import social_network.repositories.users
-from social_network.entities import user
 
+from social_network.entities import user
+from social_network.repositories import users
 
 REGISTRATION_ERROR = "Username already in use"
 
@@ -39,7 +39,7 @@ class InputBoundary(ABC):
 
 
 class UseCase(object):
-    def __init__(self, user_repository: social_network.repositories.users.Repository, presenter: Presenter) -> None:
+    def __init__(self, user_repository: users.Repository, presenter: Presenter) -> None:
         self.user_repository = user_repository
         self.presenter = presenter
 
