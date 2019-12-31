@@ -6,11 +6,20 @@ from social_network.use_cases import register_user
 
 
 class Presenter(register_user.Presenter):
-    def on_success(self, response: register_user.Response) -> None:
-        pass
+    def __init__(self, response: falcon.Response) -> None:
+        self.response = response
+
+    def on_success(self, new_user: register_user.Response) -> None:
+        self.response.content_type = "application/json"
+        self.response.status = falcon.HTTP_201
+        self.response.body = json.dumps(
+            {"id": new_user.user_id,
+             "username": new_user.username,
+             "about": new_user.about})
 
     def on_failure(self, message: str) -> None:
-        pass
+        self.response.status = falcon.HTTP_400
+        self.response.body = message
 
 
 class Controller(object):
@@ -19,11 +28,6 @@ class Controller(object):
 
     def on_post(self, request: falcon.Request, response: falcon.Response) -> None:
         data = json.load(request.bounded_stream)
-        case = register_user.UseCase(self.user_repository, Presenter)
+        use_case = register_user.UseCase(self.user_repository, Presenter(response))
         ru_request = register_user.Request(data.get("username"), data.get("password"), data.get("about"))
-        newUser = case.create_new_user_from(ru_request)
-        response.content_type = "application/json"
-        response.body = json.dumps({"id": newUser.id, "username": newUser.username, "about": newUser.about})
-        response.status_int = 201
-        response.status = "201 - CREATED"
-
+        use_case.execute(ru_request)

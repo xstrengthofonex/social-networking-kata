@@ -12,8 +12,7 @@ class RegisterUserAPITest(dsl.APITest):
 
         response = self.client.post_json("/registration", params=registration_data)
 
-        self.assertEqual(201, response.status_int)
-        self.assertEqual("201 - CREATED", response.status)
+        self.assertEqual("201 Created", response.status)
         self.assertIsNotNone(response.json.get("id"))
         self.assertEqual(self.ALICE.username, response.json.get("username"))
         self.assertEqual(self.ALICE.about, response.json.get("about"))
@@ -25,9 +24,6 @@ class RegisterUserAPITest(dsl.APITest):
             about=self.ALICE.about)
         self.client.post_json("/registration", params=registration_data)
 
-        response = self.client.post_json("/registration", params=registration_data)
+        response = self.client.post_json("/registration", params=registration_data, status="400 Bad Request")
 
-        self.assertEqual(400, response.status_int)
-        self.assertEqual("400 - BAD_REQUEST", response.status)
-        self.assertEqual("Username already in use", response.json)
-        
+        self.assertEqual("Username already in use", response.text)
