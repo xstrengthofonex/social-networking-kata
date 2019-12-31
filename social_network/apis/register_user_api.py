@@ -1,7 +1,8 @@
 import json
 import falcon
 
-from social_network.domain import user
+import social_network.repositories.users
+from social_network.entities import user
 from social_network.use_cases import register_user
 
 
@@ -23,7 +24,7 @@ class Presenter(register_user.Presenter):
 
 
 class Controller(object):
-    def __init__(self, user_repository: user.Repository):
+    def __init__(self, user_repository: social_network.repositories.users.Repository):
         self.user_repository = user_repository
 
     def on_post(self, request: falcon.Request, response: falcon.Response) -> None:

@@ -2,7 +2,8 @@ import unittest
 from unittest.mock import Mock
 from uuid import uuid4
 
-from social_network.domain import user
+import social_network.repositories.users
+from social_network.entities import user
 from social_network.use_cases import register_user
 
 
@@ -19,7 +20,7 @@ class RegisterUserTest(unittest.TestCase):
 
     def setUp(self) -> None:
         self.presenter = Mock(register_user.Presenter)
-        self.repository = Mock(user.Repository)
+        self.repository = Mock(social_network.repositories.users.Repository)
         self.use_case = register_user.UseCase(self.repository, self.presenter)
 
     def test_register_user(self):
