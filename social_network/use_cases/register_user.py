@@ -39,22 +39,22 @@ class InputBoundary(ABC):
 
 
 class UseCase(object):
-    def __init__(self, user_repository: users.Repository, presenter: Presenter) -> None:
-        self.user_repository = user_repository
+    def __init__(self, users_repository: users.Repository, presenter: Presenter) -> None:
+        self.users_repository = users_repository
         self.presenter = presenter
 
     def execute(self, request: Request) -> None:
-        if self.user_repository.username_exists(request.username):
+        if self.users_repository.username_exists(request.username):
             self.presenter.on_failure(REGISTRATION_ERROR)
         else:
             new_user = self.create_new_user_from(request)
-            self.user_repository.add(new_user)
+            self.users_repository.add(new_user)
             response = Response(new_user.id, new_user.username, new_user.about)
             self.presenter.on_success(response)
 
     def create_new_user_from(self, request: Request) -> user.User:
         return user.User(
-            user.Id(self.user_repository.get_next_id()),
+            user.Id(self.users_repository.get_next_id()),
             request.username,
             request.password,
             request.about)

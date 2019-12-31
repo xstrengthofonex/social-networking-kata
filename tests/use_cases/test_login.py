@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import Mock
 from uuid import uuid4
 
-import social_network.repositories.users
+from social_network.repositories import users
 from social_network.entities import user
 from social_network.use_cases import login
 
@@ -15,7 +15,7 @@ class LoginTest(unittest.TestCase):
     USER = user.User(USER_ID, USERNAME, PASSWORD, ABOUT)
 
     def setUp(self) -> None:
-        self.repository = Mock(social_network.repositories.users.Repository)
+        self.repository = Mock(users.Repository)
         self.presenter = Mock(login.Presenter)
         self.use_case = login.UseCase(self.presenter, self.repository)
 

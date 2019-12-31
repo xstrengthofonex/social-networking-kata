@@ -32,12 +32,12 @@ class Presenter(ABC):
 
 
 class UseCase(object):
-    def __init__(self, presenter: Presenter, user_repository: users.Repository) -> None:
-        self.user_repository = user_repository
+    def __init__(self, presenter: Presenter, users_repository: users.Repository) -> None:
+        self.users_repository = users_repository
         self.presenter = presenter
 
     def execute(self, request: Request) -> None:
-        found_user = self.user_repository.find_by_credentials(request.username, request.password)
+        found_user = self.users_repository.find_by_credentials(request.username, request.password)
         if not found_user:
             self.presenter.on_failure(INVALID_CREDENTIALS)
         else:
