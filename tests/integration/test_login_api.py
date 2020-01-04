@@ -7,6 +7,12 @@ class LoginAPITest(dsl.APITest):
         response = self.login(registered_user)
         self.assert_logged_in_user(registered_user, response)
 
+    def test_login_wrong_password_user(self):
+        wrong_password_user = dsl.User(None, "Username", "wrongPassword")
+        response = self.login(wrong_password_user)
+        self.assertEqual("401 BAD REQUEST", response.status)
+        self.assertEqual("Invalid Credentials", response.json_body)
+
     def assert_logged_in_user(self, registered_user, response):
         self.assertEqual("200 OK", response.status)
         self.assertEqual(registered_user.id, response.json.get("id"))

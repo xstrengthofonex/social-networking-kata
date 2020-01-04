@@ -37,4 +37,5 @@ class InMemoryRepository(Repository):
         return any(u.username == username for u in self.users)
 
     def find_by_credentials(self, username: str, password: str) -> Optional[user.User]:
-        raise NotImplementedError
+        return next( (u for u in self.users if (u.username == username and u.password == password)), False)
+        
