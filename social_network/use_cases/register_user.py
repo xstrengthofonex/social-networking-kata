@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from .base import BaseUseCase
 from dataclasses import dataclass
 
 
@@ -38,7 +39,7 @@ class InputBoundary(ABC):
         pass
 
 
-class UseCase(object):
+class UseCase(BaseUseCase):
     def __init__(self, users_repository: users.Repository, presenter: Presenter) -> None:
         self.users_repository = users_repository
         self.presenter = presenter
