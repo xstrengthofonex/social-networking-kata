@@ -1,6 +1,6 @@
-from abc import ABC, abstractmethod
-from .base import BaseUseCase
 from dataclasses import dataclass
+
+from social_network.use_cases import base
 from social_network.repositories import users
 from social_network.entities import user
 
@@ -9,30 +9,20 @@ INVALID_CREDENTIALS = "Invalid Credentials"
 
 
 @dataclass(frozen=True)
-class Request(object):
+class Request(base.Request):
     username: str
     password: str
 
 
 @dataclass(frozen=True)
-class Response:
+class Response(base.Response):
     user_id: user.Id
     username: str
     about: str
 
 
-class Presenter(ABC):
-    @abstractmethod
-    def on_success(self, response: Response) -> None:
-        pass
-
-    @abstractmethod
-    def on_failure(self, error: str) -> None:
-        pass
-
-
-class UseCase(BaseUseCase):
-    def __init__(self, presenter: Presenter, users_repository: users.Repository) -> None:
+class UseCase(base.InputBoundary):
+    def __init__(self, users_repository: users.Repository, presenter: base.OutputBoundary) -> None:
         self.users_repository = users_repository
         self.presenter = presenter
 

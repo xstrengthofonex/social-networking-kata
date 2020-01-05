@@ -13,7 +13,7 @@ class RegisterUserAPITest(dsl.APITest):
         response = self.client.post_json("/registration", params=registration_data)
 
         self.assertEqual("201 Created", response.status)
-        self.assertIsNotNone(response.json.get("id"))
+        self.assertIsNotNone(response.json.get("userId"))
         self.assertEqual(self.ALICE.username, response.json.get("username"))
         self.assertEqual(self.ALICE.about, response.json.get("about"))
 

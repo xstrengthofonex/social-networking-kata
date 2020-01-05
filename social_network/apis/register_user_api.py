@@ -3,9 +3,10 @@ import falcon
 
 from social_network.repositories import users
 from social_network.use_cases import register_user
+from social_network.use_cases import base
 
 
-class Presenter(register_user.Presenter):
+class Presenter(base.OutputBoundary):
     def __init__(self, response: falcon.Response) -> None:
         self.response = response
 
@@ -13,7 +14,7 @@ class Presenter(register_user.Presenter):
         self.response.content_type = "application/json"
         self.response.status = falcon.HTTP_201
         self.response.body = json.dumps(
-            {"id": new_user.user_id,
+            {"userId": new_user.user_id,
              "username": new_user.username,
              "about": new_user.about})
 

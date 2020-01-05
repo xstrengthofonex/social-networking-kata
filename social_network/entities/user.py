@@ -10,3 +10,6 @@ class User(object):
     username: str
     password: str
     about: str
+
+    def has_credentials(self, username: str, password: str) -> bool:
+        return self.username == username and self.password == password

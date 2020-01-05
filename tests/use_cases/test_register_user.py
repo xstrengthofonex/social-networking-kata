@@ -5,6 +5,7 @@ from uuid import uuid4
 from social_network.repositories import users
 from social_network.entities import user
 from social_network.use_cases import register_user
+from social_network.use_cases import base
 
 
 class RegisterUserTest(unittest.TestCase):
@@ -17,7 +18,7 @@ class RegisterUserTest(unittest.TestCase):
     DUPLICATE_USER = user.User(USER_ID, DUPLICATE_USERNAME, PASSWORD, ABOUT)
 
     def setUp(self) -> None:
-        self.presenter = Mock(register_user.Presenter)
+        self.presenter = Mock(base.OutputBoundary)
         self.repository = Mock(users.Repository)
         self.use_case = register_user.UseCase(self.repository, self.presenter)
 

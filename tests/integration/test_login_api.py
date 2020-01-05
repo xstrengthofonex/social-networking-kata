@@ -1,25 +1,30 @@
+import webtest
+
 from tests.integration import dsl
 
 
 class LoginAPITest(dsl.APITest):
+    def setUp(self) -> None:
+        super().setUp()
+        self.registered_user = self.create_registered_user()
+
     def test_login_existing_user(self):
-        registered_user = self.create_registered_user()
-        response = self.login(registered_user)
-        self.assert_logged_in_user(registered_user, response)
+        response = self.login(self.registered_user)
+        self.assert_user_logged_in(response)
 
     def test_login_wrong_password_user(self):
-        wrong_password_user = dsl.User(None, "Username", "wrongPassword")
+        wrong_password_user = dsl.User(username="Username", password="wrongPassword")
         response = self.login(wrong_password_user)
-        self.assertEqual("401 BAD REQUEST", response.status)
-        self.assertEqual("Invalid Credentials", response.json_body)
+        self.assertEqual("400 Bad Request", response.status)
+        self.assertEqual("Invalid Credentials", response.text)
 
-    def assert_logged_in_user(self, registered_user, response):
-        self.assertEqual("200 OK", response.status)
-        self.assertEqual(registered_user.id, response.json.get("id"))
-        self.assertEqual(registered_user.username, response.json.get("username"))
-        self.assertEqual(registered_user.about, response.json.get("about"))
-
-    def login(self, registered_user):
-        login_credentials = dict(username=registered_user.username, password=registered_user.password)
-        response = self.client.post_json("/login", params=login_credentials)
+    def login(self, a_user: dsl.User) -> webtest.TestResponse:
+        login_credentials = dict(username=a_user.username, password=a_user.password)
+        response = self.client.post_json("/login", params=login_credentials, status="*")
         return response
+
+    def assert_user_logged_in(self, response: webtest.TestResponse):
+        self.assertEqual("200 OK", response.status)
+        self.assertEqual(self.registered_user.id, response.json.get("userId"))
+        self.assertEqual(self.registered_user.username, response.json.get("username"))
+        self.assertEqual(self.registered_user.about, response.json.get("about"))

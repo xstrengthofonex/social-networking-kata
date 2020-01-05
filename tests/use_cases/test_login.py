@@ -5,6 +5,7 @@ from uuid import uuid4
 from social_network.repositories import users
 from social_network.entities import user
 from social_network.use_cases import login
+from social_network.use_cases import base
 
 
 class LoginTest(unittest.TestCase):
@@ -16,8 +17,8 @@ class LoginTest(unittest.TestCase):
 
     def setUp(self) -> None:
         self.repository = Mock(users.Repository)
-        self.presenter = Mock(login.Presenter)
-        self.use_case = login.UseCase(self.presenter, self.repository)
+        self.presenter = Mock(base.OutputBoundary)
+        self.use_case = login.UseCase(self.repository, self.presenter)
 
     def test_login(self):
         self.given_matching_credentials_for(self.USER)
