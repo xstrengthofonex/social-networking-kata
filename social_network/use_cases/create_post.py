@@ -33,4 +33,7 @@ class UseCase(base.InputBoundary):
         self.clock = clock
 
     def execute(self, request: Request) -> None:
-        pass
+        new_post = post.Post(self.posts_repository.get_next_id(), request.user_id, request.text, self.clock.now())
+        self.posts_repository.add(new_post)
+        response = Response(new_post.id, new_post.user_id, new_post.text, self.clock.now())
+        self.presenter.on_success(response)

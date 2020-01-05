@@ -41,3 +41,14 @@ class CreatePostTest(unittest.TestCase):
         self.presenter.on_success.assert_called_with(response)
         self.posts_repository.add.assert_called_with(self.POST)
 
+    def test_do_not_create_post_if_invalid_user(self):
+        request = create_post.Request(user_id=self.USER_ID, text=self.TEXT)
+        self.posts_repository.get_next_id.return_value = self.POST_ID
+        self.users_repository.find_by_id.return_value = None
+
+        self.use_case.execute(request)
+
+        response = "User Does Not Exist"
+        self.presenter.on_failure.assert_called_with(response)
+        self.posts_repository.add.assert_not_called()
+
