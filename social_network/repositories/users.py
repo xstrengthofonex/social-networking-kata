@@ -22,6 +22,10 @@ class Repository(ABC):
     def find_by_credentials(self, username: str, password: str) -> Optional[user.User]:
         pass
 
+    @abstractmethod
+    def find_by_id(self, user_id: user.Id) -> Optional[user.User]:
+        pass
+
 
 class InMemoryRepository(Repository):
     def __init__(self):
@@ -38,3 +42,6 @@ class InMemoryRepository(Repository):
 
     def find_by_credentials(self, username: str, password: str) -> Optional[user.User]:
         return next((u for u in self.users if u.has_credentials(username, password)), False)
+
+    def find_by_id(self, user_id: user.Id) -> Optional[user.User]:
+        pass

@@ -48,7 +48,7 @@ Response: "Invalid credentials."
 
 ## Create Post
 
-POST /user/<userId>/posts
+POST /users/:userId/posts
 {
 	"text" : "Hello everyone. I'm Alice."
 }
@@ -64,11 +64,11 @@ Status CREATED - 201
 
 **Failure**
 Status: BAD_REQUEST - 400 (in case user does not exist)
-Response: "User does not exit."
+Response: "User does not exist."
 
 ## Retrieve Posts (User timeline)
 
-GET - /user/<userId>/timeline
+GET - /users/:userId/timeline
 [{
 	"postId" : "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
 	"userId" : "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -88,7 +88,7 @@ Status OK - 200
 
 **Failure**
 Status: BAD_REQUEST - 400 (in case user does not exist)
-Response: "User does not exit."
+Response: "User does not exist."
 
 ## Follow User
 
@@ -103,11 +103,11 @@ Status OK - 201
 
 **Failure**
 Status: BAD_REQUEST - 400  (in case one of the users doesn't exist)
-Response: "At least one of the users does not exit."
+Response: "At least one of the users does not exist."
 
 ## Retrieve Wall
 
-GET - /user/<userId>/wall
+GET - /users/:userId/wall
 [{
 	"postId" : "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
 	"userId" : "BOB_IDxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -169,7 +169,7 @@ Status OK - 200
 
 ## Retrieve all users followed by another user (followees)
 
-GET - /user/:userId/followees
+GET - /users/:userId/followees
 [{
 	"userId" : "123e4567-e89b-12d3-a456-426655440000",
 	"username" : "Alice",
