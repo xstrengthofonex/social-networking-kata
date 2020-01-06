@@ -44,4 +44,4 @@ class InMemoryRepository(Repository):
         return next((u for u in self.users if u.has_credentials(username, password)), False)
 
     def find_by_id(self, user_id: user.Id) -> Optional[user.User]:
-        pass
+        return next((u for u in self.users if u.id == user.Id(user_id)), False)

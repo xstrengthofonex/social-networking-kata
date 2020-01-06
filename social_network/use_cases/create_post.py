@@ -21,6 +21,7 @@ class Response(base.Response):
     text: str
     created_on: datetime
 
+USER_DOES_NOT_EXIST = "User Does Not Exist."
 
 class UseCase(base.InputBoundary):
     def __init__(self, posts_repository: posts.Repository,
@@ -34,9 +35,9 @@ class UseCase(base.InputBoundary):
 
     def execute(self, request: Request) -> None:
         if not self.users_repository.find_by_id(user.Id(request.user_id)):
-            self.presenter.on_failure("User Does Not Exist.")
+            self.presenter.on_failure(USER_DOES_NOT_EXIST)
         else:
-            new_post = self.create_new_post_from(request)
+            new_post: post.Post = self.create_new_post_from(request)
             self.posts_repository.add(new_post)
             response = Response(new_post.id, new_post.user_id, new_post.text, new_post.created_on)
             self.presenter.on_success(response)

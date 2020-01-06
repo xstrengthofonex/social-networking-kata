@@ -49,7 +49,7 @@ class CreatePostTest(unittest.TestCase):
 
         self.use_case.execute(request)
 
-        response = "User Does Not Exist."
+        response = create_post.USER_DOES_NOT_EXIST
         self.presenter.on_failure.assert_called_with(response)
         self.posts_repository.add.assert_not_called()
 
