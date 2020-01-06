@@ -33,7 +33,17 @@ class UseCase(base.InputBoundary):
         self.clock = clock
 
     def execute(self, request: Request) -> None:
-        new_post = post.Post(self.posts_repository.get_next_id(), request.user_id, request.text, self.clock.now())
-        self.posts_repository.add(new_post)
-        response = Response(new_post.id, new_post.user_id, new_post.text, self.clock.now())
-        self.presenter.on_success(response)
+        if not self.users_repository.find_by_id(user.Id(request.user_id)):
+            self.presenter.on_failure("User Does Not Exist.")
+        else:
+            new_post = self.create_new_post_from(request)
+            self.posts_repository.add(new_post)
+            response = Response(new_post.id, new_post.user_id, new_post.text, new_post.created_on)
+            self.presenter.on_success(response)
+
+    def create_new_post_from(self, request: Request) -> post.Post:
+        return post.Post(
+            id=self.posts_repository.get_next_id(),
+            user_id=user.Id(request.user_id),
+            text=request.text,
+            created_on=self.clock.now())

@@ -5,7 +5,8 @@ from uuid import uuid4
 
 from social_network.entities import post
 from social_network.entities import user
-from social_network.repositories import users, posts
+from social_network.repositories import users
+from social_network.repositories import posts
 from social_network.use_cases import base
 from social_network.use_cases import create_post
 
@@ -48,7 +49,7 @@ class CreatePostTest(unittest.TestCase):
 
         self.use_case.execute(request)
 
-        response = "User Does Not Exist"
+        response = "User Does Not Exist."
         self.presenter.on_failure.assert_called_with(response)
         self.posts_repository.add.assert_not_called()
 
