@@ -42,6 +42,6 @@ class UseCase(base.InputBoundary):
 
     @staticmethod
     def create_response_from(timeline: List[post.Post]) -> Response:
-        return Response(posts=[
-            PostDto(id=p.id, user_id=p.user_id, text=p.text,
-                    created_on=p.created_on) for p in timeline])
+        return Response(posts=[PostDto(
+            id=p.id, user_id=p.user_id, text=p.text,
+            created_on=p.created_on) for p in timeline])
