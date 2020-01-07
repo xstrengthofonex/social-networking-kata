@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import List
 from uuid import uuid4
-from social_network.entities import post
+from social_network.entities import post, user
 
 
 class Repository(ABC):
@@ -13,6 +13,11 @@ class Repository(ABC):
     def add(self, a_post: post.Post) -> None:
         pass
 
+    @abstractmethod
+    def get_timeline_for_user(self, user_id: user.Id) -> List[post.Post]:
+        pass
+
+
 class InMemoryRepository(Repository):
     def __init__(self):
         self.posts: List[post.Post] = list()
@@ -22,3 +27,6 @@ class InMemoryRepository(Repository):
 
     def get_next_id(self) -> post.Id:
         return post.Id(str(uuid4()))
+
+    def get_timeline_for_user(self, user_id: user.Id) -> List[post.Post]:
+        pass
