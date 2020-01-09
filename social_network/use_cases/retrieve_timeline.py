@@ -36,9 +36,13 @@ class UseCase(base.InputBoundary):
         self.presenter = presenter
 
     def execute(self, request: Request) -> None:
-        timeline = self.posts_repository.get_timeline_for_user(user.Id(request.user_id))
-        response = self.create_response_from(timeline)
-        self.presenter.on_success(response)
+        valid_user = self.users_repository.find_by_id(user.Id(request.user_id))
+        if valid_user:
+          timeline = self.posts_repository.get_timeline_for_user(valid_user.id)
+          response = self.create_response_from(timeline)
+          self.presenter.on_success(response)
+        else:
+          self.presenter.on_failure("User does not exist.")
 
     @staticmethod
     def create_response_from(timeline: List[post.Post]) -> Response:
