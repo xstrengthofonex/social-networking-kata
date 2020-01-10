@@ -52,4 +52,4 @@ class RetrieveTimelineTest(unittest.TestCase):
         self.users_repository.find_by_id.assert_called_with(self.NON_EXISTENT_USER_ID)
         self.presenter.on_failure.assert_called_with("User does not exist.")
         self.posts_repository.get_timeline_for_user.assert_not_called()
-        
+

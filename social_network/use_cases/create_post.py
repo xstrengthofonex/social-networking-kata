@@ -3,6 +3,7 @@ from datetime import datetime
 
 from social_network.entities import post
 from social_network.entities import user
+from social_network.infrastructure.clock import Clock
 from social_network.repositories import posts
 from social_network.repositories import users
 from social_network.use_cases import base
@@ -21,13 +22,15 @@ class Response(base.Response):
     text: str
     created_on: datetime
 
+
 USER_DOES_NOT_EXIST = "User Does Not Exist."
+
 
 class UseCase(base.InputBoundary):
     def __init__(self, posts_repository: posts.Repository,
                  users_repository: users.Repository,
                  presenter: base.OutputBoundary,
-                 clock: datetime):
+                 clock: Clock):
         self.posts_repository = posts_repository
         self.users_repository = users_repository
         self.presenter = presenter

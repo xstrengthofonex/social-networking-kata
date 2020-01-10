@@ -17,8 +17,8 @@ class CreatePostAPITest(dsl.APITest):
         self.assert_post_not_created(response)
 
     def create_post(self, user_id: str, text: str) -> webtest.TestResponse:
-        create_post_data = dict(user_id=user_id, text=text)
-        return self.client.post_json("/users/{user_id}/posts", params=create_post_data, status="*")
+        create_post_data = dict(text=text)
+        return self.client.post_json(f"/users/{user_id}/posts", params=create_post_data, status="*")
 
     def assert_post_created(self, response: webtest.TestResponse, user_id: str, text: str) -> None:
         self.assertEqual("201 Created", response.status)

@@ -5,6 +5,7 @@ from uuid import uuid4
 
 from social_network.entities import post
 from social_network.entities import user
+from social_network.infrastructure.clock import Clock
 from social_network.repositories import users
 from social_network.repositories import posts
 from social_network.use_cases import base
@@ -22,7 +23,7 @@ class CreatePostTest(unittest.TestCase):
     def setUp(self) -> None:
         self.posts_repository = Mock(posts.Repository)
         self.users_repository = Mock(users.Repository)
-        self.clock = Mock(datetime)
+        self.clock = Mock(Clock)
         self.presenter = Mock(base.OutputBoundary)
         self.use_case = create_post.UseCase(
             self.posts_repository, self.users_repository,

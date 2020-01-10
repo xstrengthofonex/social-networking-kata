@@ -1,7 +1,8 @@
-import datetime
+from datetime import datetime
 import json
 import falcon
 
+from social_network.infrastructure.clock import Clock
 from social_network.repositories import users, posts
 from social_network.use_cases import create_post
 from social_network.use_cases import base
@@ -31,8 +32,9 @@ class Controller(object):
         self.post_repository = post_repository
         self.user_repository = user_repository
 
-    def on_post(self, request: falcon.Request, response: falcon.Response, user_id:str) -> None:
+    def on_post(self, request: falcon.Request, response: falcon.Response, user_id: str) -> None:
         data = json.load(request.bounded_stream)
-        use_case = create_post.UseCase(self.post_repository, self.user_repository, Presenter(response), datetime.datetime.now())
-        cp_request = create_post.Request(data.get("user_id"), data.get("text"))
+        use_case = create_post.UseCase(self.post_repository, self.user_repository,
+                                       Presenter(response), Clock())
+        cp_request = create_post.Request(user_id, data.get("text"))
         use_case.execute(cp_request)
