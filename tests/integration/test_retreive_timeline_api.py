@@ -14,13 +14,13 @@ class RetrieveTimelineAPITest(dsl.APITest):
         self.assert_timeline(response, created_post)
 
     def retrieve_timeline_for_user(self, user_id: str) -> webtest.TestResponse:
-        return self.client.post_json(f"/users/{user_id}/timeline", status="*")
+        return self.client.get(f"/users/{user_id}/timeline", status="*")
 
     def assert_timeline(self, response: webtest.TestResponse, post: dsl.Post) -> None:
         self.assertEqual("200 OK", response.status)
         self.assertEqual("application/json", response.content_type)
-        self.assertEqual(post.post_id, response.json[0].get("post_id"))
-        self.assertEqual(post.user_id, response.json[0].get("user_id"))
+        self.assertEqual(post.post_id, response.json[0].get("postId"))
+        self.assertEqual(post.user_id, response.json[0].get("userId"))
         self.assertEqual(post.text, response.json[0].get("text"))
         self.assertIsNotNone(post.date, response.json[0].get("date"))
         self.assertIsNotNone(post.time, response.json[0].get("time"))
