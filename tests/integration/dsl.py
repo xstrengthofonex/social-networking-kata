@@ -42,9 +42,8 @@ class APITest(unittest.TestCase):
         response = self.client.post_json("/registration", params=registration_data)
         a_user.id = response.json.get("userId")
 
-    def create_registered_user(self, user: User = None) -> User:
-        if user is None:
-            user = User()
+    def create_registered_user(self, username: str = "User") -> User:
+        user = User(username=username)
         self.register_user(user)
         logger.info(f"Created user: {user}")
         return user
