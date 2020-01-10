@@ -41,7 +41,7 @@ class InMemoryRepository(Repository):
         return any(u.username == username for u in self.users)
 
     def find_by_credentials(self, username: str, password: str) -> Optional[user.User]:
-        return next((u for u in self.users if u.has_credentials(username, password)), False)
+        return next((u for u in self.users if u.has_credentials(username, password)), None)
 
     def find_by_id(self, user_id: user.Id) -> Optional[user.User]:
-        return next((u for u in self.users if u.id == user.Id(user_id)), False)
+        return next((u for u in self.users if u.id == user_id), None)

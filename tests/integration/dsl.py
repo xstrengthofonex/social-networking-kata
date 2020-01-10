@@ -50,9 +50,9 @@ class APITest(unittest.TestCase):
         return user
 
     def create_post(self, user_id: str, text: str) -> Post:
-        logger.info(f"Creating post for {user_id} with text '{text}'")
+        logger.info(f"Creating post for {user_id} with text: '{text}'")
         create_post_data = dict(user_id=user_id, text=text)
-        response = self.client.post_json("/users/{user_id}/posts", params=create_post_data)
+        response = self.client.post_json(f"/users/{user_id}/posts", params=create_post_data)
         post = Post(post_id=response.json.get("postId"),
                     user_id=response.json.get("userId"),
                     text=response.json.get("text"),

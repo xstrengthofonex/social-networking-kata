@@ -29,4 +29,4 @@ class InMemoryRepository(Repository):
         return post.Id(str(uuid4()))
 
     def get_timeline_for_user(self, user_id: user.Id) -> List[post.Post]:
-        return next((p for p in self.posts if p.user_id == user.Id(user_id)), False)
+        return [p for p in self.posts if p.user_id == user.Id(user_id)]
