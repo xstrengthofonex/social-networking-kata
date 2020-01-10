@@ -1,26 +1,27 @@
+from typing import List
+
 import webtest
 
 from tests.integration import dsl
 
 
 class RetrieveTimelineAPITest(dsl.APITest):
-    USER = dsl.User()
-    TEXT = "Some text"
-
-    def test_return_a_single_post_timeline_for_registered_user(self):
+    def test_returns_a_timeline_for_registered_user_in_reverse_chronological_order(self):
         registered_user = self.create_registered_user()
-        created_post = self.create_post(registered_user.id, self.TEXT)
+        post_1 = self.create_post(registered_user.id, "Post 1")
+        post_2 = self.create_post(registered_user.id, "Post 2")
         response = self.retrieve_timeline_for_user(registered_user.id)
-        self.assert_timeline(response, created_post)
+        self.assert_timeline(response, [post_2, post_1])
 
     def retrieve_timeline_for_user(self, user_id: str) -> webtest.TestResponse:
         return self.client.get(f"/users/{user_id}/timeline", status="*")
 
-    def assert_timeline(self, response: webtest.TestResponse, post: dsl.Post) -> None:
+    def assert_timeline(self, response: webtest.TestResponse, posts: List[dsl.Post]) -> None:
         self.assertEqual("200 OK", response.status)
         self.assertEqual("application/json", response.content_type)
-        self.assertEqual(post.post_id, response.json[0].get("postId"))
-        self.assertEqual(post.user_id, response.json[0].get("userId"))
-        self.assertEqual(post.text, response.json[0].get("text"))
-        self.assertIsNotNone(post.date, response.json[0].get("date"))
-        self.assertIsNotNone(post.time, response.json[0].get("time"))
+        for expected, result in zip(posts, response.json):
+            self.assertEqual(expected.post_id, result.get("postId"))
+            self.assertEqual(expected.user_id, result.get("userId"))
+            self.assertEqual(expected.text, result.get("text"))
+            self.assertIsNotNone(expected.date, result.get("date"))
+            self.assertIsNotNone(expected.time, result.get("time"))
