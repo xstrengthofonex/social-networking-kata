@@ -153,7 +153,7 @@ GET - /users
 [{
 	"userId" : "123e4567-e89b-12d3-a456-426655440000",
 	"username" : "Alice",
-	"about" : "I love playing the pianno and travel.",
+	"about" : "I love playing the piano and travel.",
 },{
 	"userId" : "093f2342-e89b-12d3-a456-426655440000",
 	"username" : "Bob",
@@ -173,7 +173,7 @@ GET - /users/:userId/followees
 [{
 	"userId" : "123e4567-e89b-12d3-a456-426655440000",
 	"username" : "Alice",
-	"about" : "I love playing the pianno and travel.",
+	"about" : "I love playing the piano and travel.",
 },{
 	"userId" : "093f2342-e89b-12d3-a456-426655440000",
 	"username" : "Bob",

@@ -17,5 +17,5 @@ def create():
     api.add_route("/login", login_api.Controller(user_repository))
     api.add_route("/users/{user_id}/posts", create_post_api.Controller(post_repository, user_repository))
     api.add_route("/users/{user_id}/timeline", retrieve_timeline_api.Controller(post_repository, user_repository))
-    api.add_route("/follow", follow_user_api.Controller())
+    api.add_route("/follow", follow_user_api.Controller(user_repository))
     return api

@@ -25,4 +25,4 @@ class FollowUserAPITest(dsl.APITest):
     def assert_no_following(self, response: webtest.TestResponse) -> None:
         self.assertEqual("400 Bad Request", response.status)
         self.assertEqual("text/plain", response.content_type)
-        self.assertEqual("At least one of the users does not exist.", response.text)
+        self.assertEqual("At least one of the users does not exist.", response.body.decode("UTF-8"))

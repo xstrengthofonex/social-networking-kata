@@ -25,6 +25,10 @@ class Repository(ABC):
     @abstractmethod
     def find_by_id(self, user_id: user.Id) -> Optional[user.User]:
         pass
+    
+    @abstractmethod
+    def add_follower(self, follower_id: user.Id, followee_id: user.Id) -> None:
+        pass
 
 
 class InMemoryRepository(Repository):
@@ -45,3 +49,7 @@ class InMemoryRepository(Repository):
 
     def find_by_id(self, user_id: user.Id) -> Optional[user.User]:
         return next((u for u in self.users if u.id == user_id), None)
+
+    def add_follower(self, follower_id: user.Id, followee_id: user.Id) -> None:
+        # not needed yet
+        pass
