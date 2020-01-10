@@ -6,7 +6,7 @@ from social_network.repositories import posts, users
 from social_network.use_cases import retrieve_timeline, base
 
 
-class TimelinePresenter(base.OutputBoundary):
+class Presenter(base.OutputBoundary):
     def __init__(self, response: falcon.Response) -> None:
         self.response = response
 
@@ -22,7 +22,9 @@ class TimelinePresenter(base.OutputBoundary):
             for p in reversed(timeline_response.posts)])
 
     def on_failure(self, error: str) -> None:
-        pass
+        self.response.content_type = "text/plain"
+        self.response.status = falcon.HTTP_400
+        self.response.body = error
 
 
 class Controller(object):
@@ -32,6 +34,6 @@ class Controller(object):
 
     def on_get(self, request: falcon.Request, response: falcon.Response, user_id: str) -> None:
         use_case = retrieve_timeline.UseCase(
-            self.post_repository, self.user_repository, TimelinePresenter(response))
+            self.post_repository, self.user_repository, Presenter(response))
         rt_request = retrieve_timeline.Request(user_id=user_id)
         use_case.execute(rt_request)
