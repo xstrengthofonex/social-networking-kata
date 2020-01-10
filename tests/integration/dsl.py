@@ -5,6 +5,12 @@ import webtest
 
 from social_network import app
 
+import logging
+
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("dsl.APITest")
+
 
 @dataclass
 class User(object):
@@ -12,6 +18,15 @@ class User(object):
     username: str = "Username"
     password: str = "password"
     about: str = "About"
+
+
+@dataclass
+class Post(object):
+    post_id: str
+    user_id: str
+    text: str
+    date: str
+    time: str
 
 
 class APITest(unittest.TestCase):
@@ -31,4 +46,17 @@ class APITest(unittest.TestCase):
         if user is None:
             user = User()
         self.register_user(user)
+        logger.info(f"Created user: {user}")
         return user
+
+    def create_post(self, user_id: str, text: str) -> Post:
+        logger.info(f"Creating post for {user_id} with text '{text}'")
+        create_post_data = dict(user_id=user_id, text=text)
+        response = self.client.post_json("/users/{user_id}/posts", params=create_post_data)
+        post = Post(post_id=response.json.get("postId"),
+                    user_id=response.json.get("userId"),
+                    text=response.json.get("text"),
+                    date=response.json.get("date"),
+                    time=response.json.get("time"))
+        logger.info(f"Post created: {post}")
+        return post

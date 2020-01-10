@@ -23,8 +23,8 @@ class CreatePostAPITest(dsl.APITest):
     def assert_post_created(self, response: webtest.TestResponse, user_id: str, text: str) -> None:
         self.assertEqual("201 Created", response.status)
         self.assertEqual("application/json", response.content_type)
-        self.assertIsNotNone(response.json.get("post_id"))
-        self.assertEqual(user_id, response.json.get("user_id"))
+        self.assertIsNotNone(response.json.get("postId"))
+        self.assertEqual(user_id, response.json.get("userId"))
         self.assertEqual(text, response.json.get("text"))
         self.assertIsNotNone(response.json.get("date"))
         self.assertIsNotNone(response.json.get("time"))

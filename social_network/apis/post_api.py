@@ -15,8 +15,8 @@ class Presenter(base.OutputBoundary):
         self.response.content_type = "application/json"
         self.response.status = falcon.HTTP_201
         self.response.body = json.dumps(
-            {"post_id": new_post.post_id,
-             "user_id": new_post.user_id,
+            {"postId": new_post.post_id,
+             "userId": new_post.user_id,
              "text": new_post.text,
              "date": str(new_post.created_on.date()),
              "time": str(new_post.created_on.time())})
