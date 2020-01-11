@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List, Optional, Tuple, NewType
+from typing import List, Optional, Tuple, NewType, NamedTuple
 from uuid import uuid4
 
 from social_network.entities import user
@@ -33,7 +33,7 @@ class Repository(ABC):
 
 FollowerId = NewType("FollowerId", user.Id)
 FolloweeId = NewType("FolloweeId", user.Id)
-Following = Tuple[FollowerId, FolloweeId]
+Following = NamedTuple("Following", [("follower_id", FollowerId), ("followee_id", FolloweeId)])
 
 
 class InMemoryRepository(Repository):
@@ -57,7 +57,9 @@ class InMemoryRepository(Repository):
         return next((u for u in self.users if u.id == user_id), None)
 
     def add_follower(self, follower_id: user.Id, followee_id: user.Id) -> None:
-        self.followings.append((FollowerId(follower_id), FolloweeId(followee_id)))
+        self.followings.append(Following(FollowerId(follower_id), FolloweeId(followee_id)))
 
     def get_followers_for(self, followee_id: user.Id) -> List[user.User]:
-        return [self.find_by_id(u[0]) for u in self.followings if u[1] == followee_id]
+        return [self.find_by_id(u.follower_id)
+                for u in self.followings
+                if u.followee_id == followee_id]
