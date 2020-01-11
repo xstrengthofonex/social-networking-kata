@@ -5,7 +5,6 @@ from social_network.infrastructure.clock import Clock
 from social_network.repositories import users
 from social_network.repositories import posts
 from social_network.use_cases import create_post
-from social_network.use_cases import retrieve_timeline
 from social_network.use_cases import base
 
 
@@ -40,9 +39,3 @@ class Controller(object):
             CreatedPostPresenter(response), Clock())
         cp_request = create_post.Request(user_id, data.get("text"))
         use_case.execute(cp_request)
-
-    def on_get(self, request: falcon.Request, response: falcon.Response, user_id: str) -> None:
-        use_case = retrieve_timeline.UseCase(
-            self.post_repository, self.user_repository, TimelinePresenter(response))
-        rt_request = retrieve_timeline.Request(user_id=user_id)
-        use_case.execute(rt_request)
