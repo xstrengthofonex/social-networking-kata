@@ -27,7 +27,7 @@ class CreatedPostPresenter(base.OutputBoundary):
         self.response.body = message
 
 
-class Controller(object):
+class CreatePostAPI(object):
     def __init__(self, post_repository: posts.Repository, user_repository: users.Repository):
         self.post_repository = post_repository
         self.user_repository = user_repository

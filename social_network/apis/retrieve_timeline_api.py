@@ -27,7 +27,7 @@ class Presenter(base.OutputBoundary):
         self.response.body = error
 
 
-class Controller(object):
+class RetrieveTimelineAPI(object):
     def __init__(self, post_repository: posts.Repository, user_repository: users.Repository):
         self.post_repository = post_repository
         self.user_repository = user_repository

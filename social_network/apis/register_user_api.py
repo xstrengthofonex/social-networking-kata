@@ -23,7 +23,7 @@ class Presenter(base.OutputBoundary):
         self.response.body = message
 
 
-class Controller(object):
+class RegisterUserAPI(object):
     def __init__(self, user_repository: users.Repository):
         self.user_repository = user_repository
 

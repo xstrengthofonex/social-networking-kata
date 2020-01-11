@@ -17,7 +17,7 @@ class Presenter(follow.Presenter):
         self.response.body = message
 
 
-class Controller:
+class FollowUserAPI:
     def __init__(self, user_repository: users.Repository):
         self.user_repository = user_repository
         
