@@ -59,3 +59,10 @@ class APITest(unittest.TestCase):
                     time=response.json.get("time"))
         logger.info(f"Post created: {post}")
         return post
+
+    def create_following(self, follower_id: str, followee_id: str):
+        logger.info(f"Creating following for {follower_id} and {followee_id}")
+        follow_request_data = dict(followerId=follower_id, followeeId=followee_id)
+        response = self.client.post_json("/follow", params=follow_request_data)
+        logger.info(f"Following created for {follower_id} and {followee_id}")
+        return response
