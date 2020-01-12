@@ -14,6 +14,7 @@ class Presenter(base.OutputBoundary):
 
     def on_success(self, wall_response: retrieve_wall.Response) -> None:
         self.response.content_type = "application/json"
+        self.response.status = falcon.HTTP_200
         self.response.body = json.dumps([dict(
             postId=p.id,
             userId=p.user_id,
@@ -23,7 +24,9 @@ class Presenter(base.OutputBoundary):
             for p in wall_response.posts])
 
     def on_failure(self, error: str) -> None:
-        pass
+        self.response.content_type = "text/plain"
+        self.response.status = falcon.HTTP_400
+        self.response.body = error
 
 
 class RetrieveWallAPI(object):

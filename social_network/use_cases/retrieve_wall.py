@@ -27,13 +27,16 @@ class UseCase(base.InputBoundary):
         self.posts_repository = posts_repository
 
     def execute(self, request: Request) -> None:
-        followees = self.users_repository.find_followees_for(user.FollowerId(user.Id(request.user_id)))
-        user_posts = self.posts_repository.get_timeline_for_user(user.Id(request.user_id))
-        followee_posts = [self.posts_repository.get_timeline_for_user(f.id) for f in followees]
-        for p in followee_posts:
-            user_posts.extend(p)
-        response = self.create_response_from_posts(user_posts)
-        self.presenter.on_success(response)
+        if not self.users_repository.find_by_id(user.Id(request.user_id)):
+            self.presenter.on_failure("User does not exist.")
+        else:
+            followees = self.users_repository.find_followees_for(user.FollowerId(user.Id(request.user_id)))
+            user_posts = self.posts_repository.get_timeline_for_user(user.Id(request.user_id))
+            followee_posts = [self.posts_repository.get_timeline_for_user(f.id) for f in followees]
+            for p in followee_posts:
+                user_posts.extend(p)
+            response = self.create_response_from_posts(user_posts)
+            self.presenter.on_success(response)
 
     @staticmethod
     def create_response_from_posts(user_posts):

@@ -17,10 +17,17 @@ class RetrieveWallAPITest(dsl.APITest):
         post_2 = self.create_post(user_2.id, "Post 2")
         post_3 = self.create_post(user_3.id, "Post 3")
         post_4 = self.create_post(user_1.id, "Post 4")
+
         response = self.retrieve_wall(user_1.id)
 
         self.assertEqual("200 OK", response.status)
         self.assert_wall(response.json, [post_4, post_3, post_2, post_1])
+
+    def test_cannot_retrieve_wall_for_non_existent_user(self):
+        response = self.retrieve_wall("NonExistentUser")
+
+        self.assertEqual("400 Bad Request", response.status)
+        self.assertEqual("User does not exist.", response.text)
 
     def retrieve_wall(self, user_id: str) -> webtest.TestResponse:
         return self.client.get(f"/users/{user_id}/wall", status="*")
@@ -32,4 +39,3 @@ class RetrieveWallAPITest(dsl.APITest):
             self.assertEqual(expected_post.text, actual_post.get("text"))
             self.assertEqual(expected_post.time, actual_post.get("time"))
             self.assertEqual(expected_post.date, actual_post.get("date"))
-
