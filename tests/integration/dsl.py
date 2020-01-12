@@ -1,3 +1,4 @@
+import time
 import unittest
 from dataclasses import dataclass
 
@@ -58,6 +59,7 @@ class APITest(unittest.TestCase):
                     date=response.json.get("date"),
                     time=response.json.get("time"))
         logger.info(f"Post created: {post}")
+        time.sleep(0.1)  # A brief sleep is required to enabled sort by time
         return post
 
     def create_following(self, follower_id: str, followee_id: str):

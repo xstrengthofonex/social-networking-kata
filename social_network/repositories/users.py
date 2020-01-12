@@ -30,6 +30,14 @@ class Repository(ABC):
     def add_follower(self, follower_id: user.Id, followee_id: user.Id) -> None:
         pass
 
+    @abstractmethod
+    def find_followees_for(self, follower_id: user.Id) -> List[user.User]:
+        pass
+
+    @abstractmethod
+    def find_followers_for(self, followee_id: user.Id) -> List[user.User]:
+        pass
+
 
 class InMemoryRepository(Repository):
     def __init__(self):
@@ -55,7 +63,13 @@ class InMemoryRepository(Repository):
         self.followings.append(user.Following(
             user.FollowerId(follower_id), user.FolloweeId(followee_id)))
 
-    def get_followers_for(self, followee_id: user.Id) -> List[user.User]:
+    def find_followers_for(self, followee_id: user.Id) -> List[user.User]:
         return [self.find_by_id(u.follower_id)
                 for u in self.followings
                 if u.followee_id == followee_id]
+
+    def find_followees_for(self, follower_id: user.Id) -> List[user.User]:
+        return [self.find_by_id(u.followee_id)
+                for u in self.followings
+                if u.follower_id == follower_id]
+

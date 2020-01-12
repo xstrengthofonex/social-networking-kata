@@ -17,7 +17,6 @@ class RetrieveWallAPITest(dsl.APITest):
         post_2 = self.create_post(user_2.id, "Post 2")
         post_3 = self.create_post(user_3.id, "Post 3")
         post_4 = self.create_post(user_1.id, "Post 4")
-
         response = self.retrieve_wall(user_1.id)
 
         self.assertEqual("200 OK", response.status)

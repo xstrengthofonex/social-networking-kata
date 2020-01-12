@@ -30,11 +30,11 @@ class FollowTest(unittest.TestCase):
 
         self.use_case.execute(follow.Request(self.FOLLOWER_USER.id, self.FOLLOWEE_USER.id))
 
-        self.assertEqual([self.FOLLOWER_USER], self.repository.get_followers_for(self.FOLLOWEE_USER.id))
+        self.assertEqual([self.FOLLOWER_USER], self.repository.find_followers_for(self.FOLLOWEE_USER.id))
         self.presenter.on_success.assert_called()
 
     def test_cannot_create_following_if_either_users_do_not_exist(self):
         self.use_case.execute(follow.Request(self.FOLLOWER_USER.id, "NonExistentId"))
 
-        self.assertEqual([], self.repository.get_followers_for(self.FOLLOWER_USER.id))
+        self.assertEqual([], self.repository.find_followers_for(self.FOLLOWER_USER.id))
         self.presenter.on_failure.assert_called_with(follow.USER_DOES_NOT_EXIST)

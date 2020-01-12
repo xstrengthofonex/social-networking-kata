@@ -19,7 +19,7 @@ class Presenter(base.OutputBoundary):
                  text=p.text,
                  date=str(p.created_on.date()),
                  time=str(p.created_on.time()))
-            for p in reversed(timeline_response.posts)])
+            for p in timeline_response.posts])
 
     def on_failure(self, error: str) -> None:
         self.response.content_type = "text/plain"

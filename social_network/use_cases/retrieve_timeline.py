@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from datetime import datetime
 from typing import List
 
 from social_network.entities import post
@@ -7,6 +6,7 @@ from social_network.entities import user
 from social_network.repositories import posts
 from social_network.repositories import users
 from social_network.use_cases import base
+from social_network.use_cases import dto
 
 
 @dataclass(frozen=True)
@@ -15,16 +15,8 @@ class Request(base.Request):
 
 
 @dataclass(frozen=True)
-class PostDto(object):
-    id: post.Id
-    user_id: user.Id
-    text: str
-    created_on: datetime
-
-
-@dataclass(frozen=True)
 class Response(base.Response):
-    posts: List[PostDto]
+    posts: List[dto.Post]
 
 
 class UseCase(base.InputBoundary):
@@ -38,14 +30,18 @@ class UseCase(base.InputBoundary):
     def execute(self, request: Request) -> None:
         valid_user = self.users_repository.find_by_id(user.Id(request.user_id))
         if valid_user:
-          timeline = self.posts_repository.get_timeline_for_user(valid_user.id)
-          response = self.create_response_from(timeline)
-          self.presenter.on_success(response)
+            timeline = self.posts_repository.get_timeline_for_user(valid_user.id)
+            response = self.create_response_from(timeline)
+            self.presenter.on_success(response)
         else:
-          self.presenter.on_failure("User does not exist.")
+            self.presenter.on_failure("User does not exist.")
+
+    def create_response_from(self, timeline: List[post.Post]) -> Response:
+        return Response(posts=[
+            self.create_dto_from(p)
+            for p in sorted(timeline, key=lambda p: p.created_on, reverse=True)])
 
     @staticmethod
-    def create_response_from(timeline: List[post.Post]) -> Response:
-        return Response(posts=[PostDto(
-            id=p.id, user_id=p.user_id, text=p.text,
-            created_on=p.created_on) for p in timeline])
+    def create_dto_from(p: post.Post) -> dto.Post:
+        return dto.Post(id=p.id, user_id=p.user_id, text=p.text,
+                        created_on=p.created_on)

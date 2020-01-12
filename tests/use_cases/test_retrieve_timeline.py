@@ -8,6 +8,7 @@ from social_network.entities import user
 from social_network.repositories import users
 from social_network.repositories import posts
 from social_network.use_cases import base
+from social_network.use_cases import dto
 from social_network.use_cases import retrieve_timeline
 
 
@@ -18,10 +19,8 @@ class RetrieveTimelineTest(unittest.TestCase):
     SECOND_POST_ID = post.Id(str(uuid4()))
     DATETIME = datetime.now()
     LATER_DATETIME = DATETIME + timedelta(3)
-    FIRST_POST = retrieve_timeline.PostDto(
-        id=FIRST_POST_ID, user_id=USER_ID, text=TEXT, created_on=DATETIME)
-    SECOND_POST = retrieve_timeline.PostDto(
-        id=SECOND_POST_ID, user_id=USER_ID, text=TEXT, created_on=LATER_DATETIME)
+    FIRST_POST = dto.Post(id=FIRST_POST_ID, user_id=USER_ID, text=TEXT, created_on=LATER_DATETIME)
+    SECOND_POST = dto.Post(id=SECOND_POST_ID, user_id=USER_ID, text=TEXT, created_on=DATETIME)
     USER = user.User(id=USER_ID, username="Username", password="password", about="About user")
     NON_EXISTENT_USER_ID = "NoneExistentUser"
 
