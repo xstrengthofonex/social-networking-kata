@@ -15,6 +15,6 @@ class User(object):
         return self.username == username and self.password == password
 
 
-FollowerId = NewType("FollowerId", user.Id)
-FolloweeId = NewType("FolloweeId", user.Id)
+FollowerId = NewType("FollowerId", Id)
+FolloweeId = NewType("FolloweeId", Id)
 Following = NamedTuple("Following", [("follower_id", FollowerId), ("followee_id", FolloweeId)])
