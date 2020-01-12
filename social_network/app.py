@@ -1,3 +1,5 @@
+from wsgiref.simple_server import make_server
+
 import falcon
 
 from social_network.apis.create_post_api import CreatePostAPI
@@ -22,3 +24,7 @@ def create():
     api.add_route("/follow", FollowUserAPI(user_repository))
     return api
 
+def run(port=4321, host="localhost"):
+    server = make_server(app=create(), host=host, port=port)
+    print(f"serving at http://{host}:{port}")
+    server.serve_forever()
