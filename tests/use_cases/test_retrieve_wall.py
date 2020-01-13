@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from unittest.mock import Mock
 from uuid import uuid4
 
-from social_network.entities import post
+
 from social_network.entities import user
 from social_network.repositories import users
 from social_network.repositories import posts

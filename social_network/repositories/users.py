@@ -4,7 +4,6 @@ from uuid import uuid4
 
 from social_network.entities import user
 
-
 class Repository(ABC):
     @abstractmethod
     def add(self, a_user: user.User) -> None:
@@ -37,7 +36,10 @@ class Repository(ABC):
     @abstractmethod
     def find_followers_for(self, followee_id: user.Id) -> List[user.User]:
         pass
-
+    
+    @abstractmethod
+    def get_all_users(self) -> List[user.User]:
+        pass
 
 class InMemoryRepository(Repository):
     def __init__(self):
@@ -72,4 +74,7 @@ class InMemoryRepository(Repository):
         return [self.find_by_id(u.followee_id)
                 for u in self.followings
                 if u.follower_id == follower_id]
-
+    
+    def get_all_users(self) -> List[user.User]:
+        return self.users
+    

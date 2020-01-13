@@ -5,7 +5,7 @@ import webtest
 from tests.integration import dsl
 
 
-class RetrieveAllUsersAPI(dsl.APITest):
+class RetrieveAllUsersAPITest(dsl.APITest):
     def test_retrieving_all_users(self):
         user_1 = self.create_registered_user("Avi")
         user_2 = self.create_registered_user("Vince")
