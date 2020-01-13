@@ -1,11 +1,12 @@
 import json
+from datetime import datetime
+
 import falcon
 
-from social_network.infrastructure.clock import Clock
-from social_network.repositories import users
-from social_network.repositories import posts
-from social_network.use_cases import create_post
-from social_network.use_cases import base
+from social_network.infrastructure import base
+from social_network.posts import posts
+from social_network.posts.use_cases import create_post
+from social_network.users import users
 
 
 class CreatedPostPresenter(base.OutputBoundary):
@@ -36,6 +37,6 @@ class CreatePostAPI(object):
         data = json.load(request.bounded_stream)
         use_case = create_post.UseCase(
             self.post_repository, self.user_repository,
-            CreatedPostPresenter(response), Clock())
+            CreatedPostPresenter(response), datetime.now())
         cp_request = create_post.Request(user_id, data.get("text"))
         use_case.execute(cp_request)

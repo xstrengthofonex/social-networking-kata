@@ -3,13 +3,11 @@ from datetime import datetime, timedelta
 from unittest.mock import Mock
 from uuid import uuid4
 
-
-from social_network.entities import user
-from social_network.repositories import users
-from social_network.repositories import posts
-from social_network.use_cases import base
-from social_network.use_cases import dto
-from social_network.use_cases import retrieve_wall
+from social_network.infrastructure import base
+from social_network.infrastructure import dto
+from social_network.posts import posts
+from social_network.posts.use_cases import retrieve_wall
+from social_network.users import user, users
 
 
 class RetrieveWallTest(unittest.TestCase):

@@ -1,13 +1,15 @@
-import falcon
 import json
 
-from social_network.use_cases import follow
-from social_network.repositories import users
+import falcon
+
+from social_network.users import users
+from social_network.users.use_cases import follow
+
 
 class Presenter(follow.Presenter):
     def __init__(self, response: falcon.Response):
         self.response = response
-        
+
     def on_success(self):
         self.response.status = falcon.HTTP_201
 

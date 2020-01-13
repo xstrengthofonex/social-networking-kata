@@ -2,15 +2,15 @@ from wsgiref.simple_server import make_server
 
 import falcon
 
-from social_network.apis.create_post_api import CreatePostAPI
-from social_network.apis.follow_user_api import FollowUserAPI
-from social_network.apis.login_api import LoginAPI
-from social_network.apis.register_user_api import RegisterUserAPI
-from social_network.apis.retrieve_timeline_api import RetrieveTimelineAPI
-from social_network.apis.retrieve_users_api import RetrieveUsersAPI
-from social_network.apis.retrieve_wall_api import RetrieveWallAPI
-from social_network.repositories import users
-from social_network.repositories import posts
+from social_network.posts import posts
+from social_network.posts.create_post_api import CreatePostAPI
+from social_network.posts.retrieve_timeline_api import RetrieveTimelineAPI
+from social_network.posts.retrieve_wall_api import RetrieveWallAPI
+from social_network.users import users
+from social_network.users.follow_user_api import FollowUserAPI
+from social_network.users.login_api import LoginAPI
+from social_network.users.register_user_api import RegisterUserAPI
+from social_network.users.retrieve_users_api import RetrieveUsersAPI
 
 
 def create():

@@ -1,9 +1,7 @@
 from dataclasses import dataclass
 
-from social_network.use_cases import base
-from social_network.entities import user
-from social_network.repositories import users
-
+from social_network.infrastructure import base
+from social_network.users import user, users
 
 REGISTRATION_ERROR = "Username already in use"
 

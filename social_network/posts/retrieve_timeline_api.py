@@ -2,8 +2,10 @@ import json
 
 import falcon
 
-from social_network.repositories import posts, users
-from social_network.use_cases import retrieve_timeline, base
+from social_network.infrastructure import base
+from social_network.posts import posts
+from social_network.posts.use_cases import retrieve_timeline
+from social_network.users import users
 
 
 class Presenter(base.OutputBoundary):

@@ -1,6 +1,7 @@
-from social_network.use_cases import base
-from social_network.repositories import users
 from dataclasses import dataclass
+
+from social_network.infrastructure import base
+from social_network.users import users
 
 
 @dataclass(frozen=True)
@@ -14,6 +15,6 @@ class UseCase(base.InputBoundary):
         self.users = users_repository
         self.presenter = presenter
 
-    def execute(self) -> None:
+    def execute(self, request: base.Request) -> None:
         all_users = self.users.get_all_users()
         self.presenter.on_success(Response(all_users))

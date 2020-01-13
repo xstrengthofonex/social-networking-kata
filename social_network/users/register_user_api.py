@@ -1,9 +1,10 @@
 import json
+
 import falcon
 
-from social_network.repositories import users
-from social_network.use_cases import register_user
-from social_network.use_cases import base
+from social_network.infrastructure import base
+from social_network.users import users
+from social_network.users.use_cases import register_user
 
 
 class Presenter(base.OutputBoundary):

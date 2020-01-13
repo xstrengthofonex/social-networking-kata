@@ -1,9 +1,8 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-from social_network.entities import user
-from social_network.repositories import users
-from social_network.use_cases import base
+from social_network.infrastructure import base
+from social_network.users import user, users
 
 
 @dataclass(frozen=True)
@@ -31,7 +30,7 @@ USER_DOES_NOT_EXIST = "At least one of the users does not exist."
 
 
 class UseCase(base.InputBoundary):
-    def __init__(self,users_repository: users.Repository, presenter: Presenter):
+    def __init__(self, users_repository: users.Repository, presenter: Presenter):
         self.users_repository = users_repository
         self.presenter = presenter
 

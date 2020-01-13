@@ -2,9 +2,8 @@ import unittest
 from unittest.mock import Mock
 from uuid import uuid4
 
-from social_network.repositories import users
-from social_network.entities import user
-from social_network.use_cases import follow
+from social_network.users import user, users
+from social_network.users.use_cases import follow
 
 
 class FollowTest(unittest.TestCase):

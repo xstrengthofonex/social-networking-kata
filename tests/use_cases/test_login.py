@@ -2,10 +2,9 @@ import unittest
 from unittest.mock import Mock
 from uuid import uuid4
 
-from social_network.repositories import users
-from social_network.entities import user
-from social_network.use_cases import login
-from social_network.use_cases import base
+from social_network.infrastructure import base
+from social_network.users import user, users
+from social_network.users.use_cases import login
 
 
 class LoginTest(unittest.TestCase):
@@ -26,7 +25,7 @@ class LoginTest(unittest.TestCase):
 
         self.use_case.execute(request)
 
-        response = login.Response(self.USER_ID, self.USERNAME,  self.ABOUT)
+        response = login.Response(self.USER_ID, self.USERNAME, self.ABOUT)
         self.presenter.on_success.assert_called_with(response)
         self.repository.find_by_credentials.assert_called_with(self.USERNAME, self.PASSWORD)
 
