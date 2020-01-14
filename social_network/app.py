@@ -10,6 +10,7 @@ from social_network.users import users
 from social_network.users.apis.follow_user_api import FollowUserAPI
 from social_network.users.apis.login_api import LoginAPI
 from social_network.users.apis.register_user_api import RegisterUserAPI
+from social_network.users.apis.retrieve_followees_api import RetrieveFolloweesAPI
 from social_network.users.apis.retrieve_users_api import RetrieveUsersAPI
 
 
@@ -24,7 +25,7 @@ def create():
     api.add_route("/users/{user_id}/timeline", RetrieveTimelineAPI(post_repository, user_repository))
     api.add_route("/users/{user_id}/wall", RetrieveWallAPI(post_repository, user_repository))
     api.add_route("/follow", FollowUserAPI(user_repository))
-
+    api.add_route("/users/{user_id}/followees", RetrieveFolloweesAPI(user_repository))
     return api
 
 

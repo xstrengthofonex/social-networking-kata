@@ -3,13 +3,13 @@ from unittest.mock import Mock
 from uuid import uuid4
 
 from social_network.common import boundary
-from social_network.common import dto
 from social_network.users import user
 from social_network.users import users
 from social_network.users.use_cases import retrieve_users
+from tests.use_cases import base
 
 
-class RetrieveWallTest(unittest.TestCase):
+class RetrieveWallTest(base.UseCaseTest):
     USER_A = user.User(id=user.Id(str(uuid4())), username="User A", password="password", about="About User A")
     USER_B = user.User(id=user.Id(str(uuid4())), username="User B", password="password", about="About User B")
     USER_C = user.User(id=user.Id(str(uuid4())), username="User C", password="password", about="About User C")
@@ -33,7 +33,3 @@ class RetrieveWallTest(unittest.TestCase):
         response = retrieve_users.Response([
             self.user_to_dto(u) for u in [self.USER_A, self.USER_B, self.USER_C]])
         self.presenter.on_success.assert_called_with(response)
-
-    @staticmethod
-    def user_to_dto(a_user: user.User) -> dto.User:
-        return dto.User(id=a_user.id, username=a_user.username, about=a_user.about)

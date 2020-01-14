@@ -2,11 +2,11 @@ import logging
 import time
 import unittest
 from dataclasses import dataclass
+from typing import Dict, List
 
 import webtest
 
 from social_network import app
-from social_network.common import dto
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("dsl.APITest")
@@ -68,5 +68,12 @@ class APITest(unittest.TestCase):
         logger.info(f"Following created for {follower_id} and {followee_id}")
         return response
 
-    def make_user_dto(self, a_user: User):
-        return dto.User(a_user.id, a_user.username, a_user.about)
+    @staticmethod
+    def json_user_to_dsl_user(json_user: Dict[str, str]) -> User:
+        return User(
+            id=json_user.get("id"),
+            username=json_user.get("username"),
+            about=json_user.get("about"))
+
+    def json_users_to_dsl_users(self, json_users: List[Dict[str, str]]) -> List[User]:
+        return [self.json_user_to_dsl_user(u) for u in json_users]

@@ -23,12 +23,4 @@ class RetrieveAllUsersAPITest(dsl.APITest):
         self.assertListEqual(self.json_users_to_dsl_users(response.json),
                              expected_users)
 
-    @staticmethod
-    def json_user_to_dsl_user(json_user: Dict[str, str]) -> dsl.User:
-        return dsl.User(
-            id=json_user.get("id"),
-            username=json_user.get("username"),
-            about=json_user.get("about"))
 
-    def json_users_to_dsl_users(self, json_users: List[Dict[str, str]]) -> List[dsl.User]:
-        return [self.json_user_to_dsl_user(u) for u in json_users]
