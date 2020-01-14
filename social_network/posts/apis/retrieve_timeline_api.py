@@ -2,13 +2,13 @@ import json
 
 import falcon
 
-from social_network.infrastructure import base
+from social_network.common import boundary
 from social_network.posts import posts
 from social_network.posts.use_cases import retrieve_timeline
 from social_network.users import users
 
 
-class Presenter(base.OutputBoundary):
+class Presenter(boundary.Output):
     def __init__(self, response: falcon.Response) -> None:
         self.response = response
 

@@ -3,13 +3,13 @@ from datetime import datetime
 
 import falcon
 
-from social_network.infrastructure import base
+from social_network.common import boundary
 from social_network.posts import posts
 from social_network.posts.use_cases import create_post
 from social_network.users import users
 
 
-class CreatedPostPresenter(base.OutputBoundary):
+class Presenter(boundary.Output):
     def __init__(self, response: falcon.Response) -> None:
         self.response = response
 
@@ -37,6 +37,6 @@ class CreatePostAPI(object):
         data = json.load(request.bounded_stream)
         use_case = create_post.UseCase(
             self.post_repository, self.user_repository,
-            CreatedPostPresenter(response), datetime.now())
+            Presenter(response), datetime.now())
         cp_request = create_post.Request(user_id, data.get("text"))
         use_case.execute(cp_request)

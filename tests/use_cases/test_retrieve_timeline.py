@@ -3,9 +3,10 @@ from datetime import datetime, timedelta
 from unittest.mock import Mock
 from uuid import uuid4
 
-from social_network.infrastructure import base
-from social_network.infrastructure import dto
-from social_network.posts import post, posts
+from social_network.common import dto
+from social_network.common import boundary
+from social_network.posts import post
+from social_network.posts import posts
 from social_network.posts.use_cases import retrieve_timeline
 from social_network.users import user, users
 
@@ -25,7 +26,7 @@ class RetrieveTimelineTest(unittest.TestCase):
     def setUp(self) -> None:
         self.posts_repository = Mock(posts.Repository)
         self.users_repository = Mock(users.Repository)
-        self.presenter = Mock(base.OutputBoundary)
+        self.presenter = Mock(boundary.Output)
         self.use_case = retrieve_timeline.UseCase(
             self.posts_repository, self.users_repository, self.presenter)
 

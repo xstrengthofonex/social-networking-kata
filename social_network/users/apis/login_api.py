@@ -2,12 +2,12 @@ import json
 
 import falcon
 
-from social_network.infrastructure import base
+from social_network.common import boundary
 from social_network.users import users
 from social_network.users.use_cases import login
 
 
-class Presenter(base.OutputBoundary):
+class Presenter(boundary.Output):
     def __init__(self, response: falcon.Response) -> None:
         self.response = response
 

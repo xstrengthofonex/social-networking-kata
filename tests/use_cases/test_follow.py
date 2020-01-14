@@ -2,7 +2,8 @@ import unittest
 from unittest.mock import Mock
 from uuid import uuid4
 
-from social_network.users import user, users
+from social_network.users import user
+from social_network.users import users
 from social_network.users.use_cases import follow
 
 

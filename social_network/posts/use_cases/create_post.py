@@ -1,19 +1,21 @@
 from dataclasses import dataclass
 from datetime import datetime
 
-from social_network.infrastructure import base
-from social_network.posts import post, posts
-from social_network.users import user, users
+from social_network.common import boundary
+from social_network.posts import post
+from social_network.posts import posts
+from social_network.users import user
+from social_network.users import users
 
 
 @dataclass(frozen=True)
-class Request(base.Request):
+class Request(boundary.Request):
     user_id: str
     text: str
 
 
 @dataclass(frozen=True)
-class Response(base.Response):
+class Response(boundary.Response):
     post_id: post.Id
     user_id: user.Id
     text: str
@@ -23,10 +25,10 @@ class Response(base.Response):
 USER_DOES_NOT_EXIST = "User Does Not Exist."
 
 
-class UseCase(base.InputBoundary):
+class UseCase(boundary.Input):
     def __init__(self, posts_repository: posts.Repository,
                  users_repository: users.Repository,
-                 presenter: base.OutputBoundary,
+                 presenter: boundary.Output,
                  clock: datetime):
         self.posts_repository = posts_repository
         self.users_repository = users_repository

@@ -1,18 +1,19 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-from social_network.infrastructure import base
-from social_network.users import user, users
+from social_network.common import boundary
+from social_network.users import user
+from social_network.users import users
 
 
 @dataclass(frozen=True)
-class Request(base.Request):
+class Request(boundary.Request):
     follower_id: str
     followee_id: str
 
 
 @dataclass(frozen=True)
-class Response(base.Response):
+class Response(boundary.Response):
     text: str
 
 
@@ -29,7 +30,7 @@ class Presenter(ABC):
 USER_DOES_NOT_EXIST = "At least one of the users does not exist."
 
 
-class UseCase(base.InputBoundary):
+class UseCase(boundary.Input):
     def __init__(self, users_repository: users.Repository, presenter: Presenter):
         self.users_repository = users_repository
         self.presenter = presenter

@@ -2,8 +2,9 @@ import unittest
 from unittest.mock import Mock
 from uuid import uuid4
 
-from social_network.infrastructure import base
-from social_network.users import user, users
+from social_network.common import boundary
+from social_network.users import user
+from social_network.users import users
 from social_network.users.use_cases import login
 
 
@@ -16,7 +17,7 @@ class LoginTest(unittest.TestCase):
 
     def setUp(self) -> None:
         self.repository = Mock(users.Repository)
-        self.presenter = Mock(base.OutputBoundary)
+        self.presenter = Mock(boundary.Output)
         self.use_case = login.UseCase(self.repository, self.presenter)
 
     def test_login(self):

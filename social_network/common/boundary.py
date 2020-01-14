@@ -9,7 +9,7 @@ class Request(object):
     pass
 
 
-class OutputBoundary(ABC):
+class Output(ABC):
     @abstractmethod
     def on_success(self, response: Response) -> None:
         pass
@@ -19,7 +19,7 @@ class OutputBoundary(ABC):
         pass
 
 
-class InputBoundary(ABC):
+class Input(ABC):
     @abstractmethod
     def execute(self, request: Request) -> None:
         pass

@@ -4,6 +4,7 @@ from typing import NewType
 
 from social_network.users import user
 
+
 Id = NewType("Id", str)
 
 

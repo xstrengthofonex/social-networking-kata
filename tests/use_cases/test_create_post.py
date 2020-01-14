@@ -3,10 +3,12 @@ from datetime import datetime
 from unittest.mock import Mock
 from uuid import uuid4
 
-from social_network.infrastructure import base
-from social_network.posts import post, posts
+from social_network.common import boundary
+from social_network.posts import post
+from social_network.posts import posts
 from social_network.posts.use_cases import create_post
-from social_network.users import user, users
+from social_network.users import user
+from social_network.users import users
 
 
 class CreatePostTest(unittest.TestCase):
@@ -21,7 +23,7 @@ class CreatePostTest(unittest.TestCase):
         self.posts_repository = Mock(posts.Repository)
         self.users_repository = Mock(users.Repository)
         self.clock = Mock(datetime)
-        self.presenter = Mock(base.OutputBoundary)
+        self.presenter = Mock(boundary.Output)
         self.use_case = create_post.UseCase(
             self.posts_repository, self.users_repository,
             self.presenter, self.clock)

@@ -3,8 +3,8 @@ from datetime import datetime, timedelta
 from unittest.mock import Mock
 from uuid import uuid4
 
-from social_network.infrastructure import base
-from social_network.infrastructure import dto
+from social_network.common import dto
+from social_network.common import boundary
 from social_network.posts import posts
 from social_network.posts.use_cases import retrieve_wall
 from social_network.users import user, users
@@ -21,7 +21,7 @@ class RetrieveWallTest(unittest.TestCase):
     POST_2 = dto.Post(id=FOLLOWEE_ID, user_id=FOLLOWEE_ID, text="follower post 1", created_on=TODAY)
     
     def setUp(self) -> None:
-        self.presenter = Mock(base.OutputBoundary)
+        self.presenter = Mock(boundary.Output)
         self.posts_repository = posts.InMemoryRepository()
         self.users_repository = users.InMemoryRepository()
         self.use_case = retrieve_wall.UseCase(self.posts_repository, self.users_repository, self.presenter)

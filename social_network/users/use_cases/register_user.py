@@ -1,27 +1,29 @@
 from dataclasses import dataclass
 
-from social_network.infrastructure import base
-from social_network.users import user, users
+from social_network.common import boundary
+from social_network.users import user
+from social_network.users import users
+
 
 REGISTRATION_ERROR = "Username already in use"
 
 
 @dataclass(frozen=True)
-class Request(base.Request):
+class Request(boundary.Request):
     username: str
     password: str
     about: str
 
 
 @dataclass(frozen=True)
-class Response(base.Response):
+class Response(boundary.Response):
     user_id: str
     username: str
     about: str
 
 
-class UseCase(base.InputBoundary):
-    def __init__(self, users_repository: users.Repository, presenter: base.OutputBoundary) -> None:
+class UseCase(boundary.Input):
+    def __init__(self, users_repository: users.Repository, presenter: boundary.Output) -> None:
         self.users_repository = users_repository
         self.presenter = presenter
 
