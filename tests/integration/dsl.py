@@ -1,3 +1,4 @@
+import logging
 import time
 import unittest
 from dataclasses import dataclass
@@ -5,9 +6,7 @@ from dataclasses import dataclass
 import webtest
 
 from social_network import app
-
-import logging
-
+from social_network.common import dto
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("dsl.APITest")
@@ -68,3 +67,6 @@ class APITest(unittest.TestCase):
         response = self.client.post_json("/follow", params=follow_request_data)
         logger.info(f"Following created for {follower_id} and {followee_id}")
         return response
+
+    def make_user_dto(self, a_user: User):
+        return dto.User(a_user.id, a_user.username, a_user.about)

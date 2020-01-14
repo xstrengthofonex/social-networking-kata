@@ -27,6 +27,7 @@ def create():
 
     return api
 
+
 def run(port=4321, host="localhost"):
     server = make_server(app=create(), host=host, port=port)
     print(f"serving at http://{host}:{port}")
